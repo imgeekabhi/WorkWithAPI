@@ -1,24 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 const User = () => {
   const { id } = useParams();
   const userData = useSelector((state) => state.user);
-  const [user, setUser] = useState([]);
-  const getData = async () => {
-    const data = await fetch(
-      `https://jsonplaceholder.typicode.com/users/${id}`
+  const eachUserData = userData.find((user) => user.id === +id);
+  if (!eachUserData) {
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
     );
-    const data2 = await data.json();
-    setUser(data2);
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+  }
   return (
     <div>
-      <h2>Name : {user.name}</h2>
-      <h2>Email : {user.email}</h2>
+      <h2>Name : {eachUserData.name}</h2>
+      <h2>Email : {eachUserData.email}</h2>
+      <h2>Phone : {eachUserData.phone}</h2>
     </div>
   );
 };
